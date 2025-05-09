@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk, messagebox
+from tkinter import ttk, messagebox, filedialog
 from typing import List, Optional
 from .maze import Maze
 from .astar import astar
@@ -74,15 +74,21 @@ class PathFinderGUI:
         # Botões de ação
         ttk.Button(
             controls_frame,
+            text="Carregar Labirinto",
+            command=self._load_maze
+        ).grid(row=len(tools)+2, column=0, pady=5)
+        
+        ttk.Button(
+            controls_frame,
             text="Resolver",
             command=self._solve_maze
-        ).grid(row=len(tools)+2, column=0, pady=5)
+        ).grid(row=len(tools)+3, column=0, pady=5)
         
         ttk.Button(
             controls_frame,
             text="Limpar",
             command=self._clear_maze
-        ).grid(row=len(tools)+3, column=0, pady=5)
+        ).grid(row=len(tools)+4, column=0, pady=5)
         
         # Canvas para desenhar o labirinto
         self.canvas = tk.Canvas(
@@ -192,6 +198,51 @@ class PathFinderGUI:
                 self.maze_data[row][col] = weight
         
         self._draw_maze()
+    
+    def _load_maze(self):
+        """Carrega um labirinto a partir de um arquivo"""
+        file_path = filedialog.askopenfilename(
+            title="Selecione um arquivo de labirinto",
+            filetypes=[("Arquivos de texto", "*.txt"), ("Todos os arquivos", "*.*")],
+            initialdir="examples"
+        )
+        
+        if not file_path:
+            return
+            
+        try:
+            with open(file_path, 'r') as file:
+                lines = file.readlines()
+                
+            # Remove espaços em branco e caracteres de nova linha
+            maze_data = [line.strip().split() for line in lines]
+            
+            # Verifica se o labirinto tem o tamanho correto
+            if len(maze_data) != self.rows or any(len(row) != self.cols for row in maze_data):
+                messagebox.showerror(
+                    "Erro",
+                    f"O labirinto deve ter {self.rows}x{self.cols} células"
+                )
+                return
+            
+            # Atualiza o labirinto
+            self.maze_data = maze_data
+            self.start_pos = None
+            self.end_pos = None
+            
+            # Encontra as posições de início e fim
+            for row in range(self.rows):
+                for col in range(self.cols):
+                    if self.maze_data[row][col] == 'S':
+                        self.start_pos = (row, col)
+                    elif self.maze_data[row][col] == 'E':
+                        self.end_pos = (row, col)
+            
+            self._draw_maze()
+            messagebox.showinfo("Sucesso", "Labirinto carregado com sucesso!")
+            
+        except Exception as e:
+            messagebox.showerror("Erro", f"Erro ao carregar o labirinto: {str(e)}")
     
     def _solve_maze(self):
         """Resolve o labirinto usando A*"""
