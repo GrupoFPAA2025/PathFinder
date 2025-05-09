@@ -49,6 +49,10 @@ class PathFinderGUI:
         # Botões de controle
         ttk.Label(controls_frame, text="Ferramentas:").grid(row=0, column=0, pady=5)
         
+        ttk.Label(controls_frame, text="Clique e arraste no labirinto para criar caminhos ou obstáculos.", wraplength=180, foreground="gray", font=("Arial", 7)).grid(row=1, column=0, pady=(0, 10))
+        
+        ttk.Label(controls_frame, text="O caminho procurado segue movimentos ortogonais.", wraplength=180, foreground="gray", font=("Arial", 7)).grid(row=2, column=0, pady=(0, 10))
+        
         self.tool_var = tk.StringVar(value="start")
         tools = [
             ("Início (S)", "start"),
@@ -66,29 +70,29 @@ class PathFinderGUI:
                 text=text,
                 value=value,
                 variable=self.tool_var
-            ).grid(row=i+1, column=0, pady=2, sticky=tk.W)
+            ).grid(row=i+3, column=0, pady=2, sticky=tk.W)
         
         ttk.Separator(controls_frame, orient='horizontal').grid(
-            row=len(tools)+1, column=0, pady=10, sticky=(tk.W, tk.E))
+            row=len(tools)+3, column=0, pady=10, sticky=(tk.W, tk.E))
         
         # Botões de ação
         ttk.Button(
             controls_frame,
             text="Carregar Labirinto",
             command=self._load_maze
-        ).grid(row=len(tools)+2, column=0, pady=5)
+        ).grid(row=len(tools)+4, column=0, pady=5)
         
         ttk.Button(
             controls_frame,
             text="Resolver",
             command=self._solve_maze
-        ).grid(row=len(tools)+3, column=0, pady=5)
+        ).grid(row=len(tools)+5, column=0, pady=5)
         
         ttk.Button(
             controls_frame,
             text="Limpar",
             command=self._clear_maze
-        ).grid(row=len(tools)+4, column=0, pady=5)
+        ).grid(row=len(tools)+6, column=0, pady=5)
         
         # Canvas para desenhar o labirinto
         self.canvas = tk.Canvas(
@@ -212,16 +216,27 @@ class PathFinderGUI:
             
         try:
             with open(file_path, 'r') as file:
-                lines = file.readlines()
+                lines = [line.strip() for line in file.readlines() if line.strip()]
                 
             # Remove espaços em branco e caracteres de nova linha
-            maze_data = [line.strip().split() for line in lines]
+            maze_data = [line.split() for line in lines]
+            
+            # Debug: Mostra informações sobre o labirinto carregado
+            print(f"Número de linhas: {len(maze_data)}")
+            print(f"Número de colunas: {len(maze_data[0]) if maze_data else 0}")
             
             # Verifica se o labirinto tem o tamanho correto
-            if len(maze_data) != self.rows or any(len(row) != self.cols for row in maze_data):
+            if len(maze_data) != self.rows:
                 messagebox.showerror(
                     "Erro",
-                    f"O labirinto deve ter {self.rows}x{self.cols} células"
+                    f"O labirinto deve ter {self.rows} linhas. Encontrado: {len(maze_data)}"
+                )
+                return
+                
+            if any(len(row) != self.cols for row in maze_data):
+                messagebox.showerror(
+                    "Erro",
+                    f"O labirinto deve ter {self.cols} colunas em cada linha"
                 )
                 return
             
@@ -243,6 +258,7 @@ class PathFinderGUI:
             
         except Exception as e:
             messagebox.showerror("Erro", f"Erro ao carregar o labirinto: {str(e)}")
+            print(f"Erro detalhado: {str(e)}")  # Debug: Mostra o erro completo
     
     def _solve_maze(self):
         """Resolve o labirinto usando A*"""

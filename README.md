@@ -26,10 +26,9 @@ O algoritmo implementado segue os seguintes passos:
 
 ### 🌟 Funcionalidades Extras
 
-1. **Movimentos Diagonais**:
-   * Permite movimentos nas 8 direções (ortogonais e diagonais)
-   * Custo diagonal = 1.4 (aproximadamente √2)
-   * Evita "cortar cantos" através de obstáculos
+- **Movimentos Ortogonais**:
+  * Esta versão permite movimentos apenas nas 4 direções ortogonais (cima, baixo, esquerda, direita).
+  * Não são permitidos movimentos diagonais.
 
 2. **Interface Gráfica**:
    * Interface intuitiva com Tkinter
@@ -80,7 +79,7 @@ O algoritmo A* tem as seguintes características de complexidade:
 * 🧪 Suite completa de testes
 * 🎮 Interface gráfica interativa
 * 🌈 Suporte a diferentes tipos de terreno
-* ↗️ Movimentos diagonais
+* Movimentos apenas ortogonais (cima, baixo, esquerda, direita)
 
 ## 📁 Estrutura do Projeto
 
