@@ -1,10 +1,10 @@
 # 🎯 PathFinder - Resolve o Labirinto 2D com o Algoritmo A*
 
-Guilherme Augusto Jardim de Souza
-João Pedro Mairinque de Azevedo
-Mauricio Fernandes Leite
-Sara Lourenço Iglesias
-Vinicius Levi
+* Guilherme Augusto Jardim de Souza
+* João Pedro Mairinque de Azevedo
+* Mauricio Fernandes Leite
+* Sara Lourenço Iglesias
+* Vinicius Levi
 
 ## 📝 Descrição do Projeto
 
