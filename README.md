@@ -1,5 +1,11 @@
 # 🎯 PathFinder - Resolve o Labirinto 2D com o Algoritmo A*
 
+Guilherme Augusto Jardim de Souza
+João Pedro Mairinque de Azevedo
+Mauricio Fernandes Leite
+Sara Lourenço Iglesias
+Vinicius Levi
+
 ## 📝 Descrição do Projeto
 
 Este projeto implementa o algoritmo A* para encontrar o menor caminho em um labirinto 2D entre dois pontos. O algoritmo combina o custo do caminho já percorrido e uma estimativa (heurística) da distância até o destino para encontrar a solução de forma eficiente.
