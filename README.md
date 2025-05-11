@@ -51,10 +51,12 @@ O algoritmo implementado segue os seguintes passos:
 O algoritmo A* tem as seguintes características de complexidade:
 
 1. **Complexidade Temporal**:
-   * **Pior Caso**: O(b^d), onde b é o fator de ramificação e d é a profundidade
-   * **Caso Médio**: O(b^d)
-   * **Melhor Caso**: O(d), quando a heurística guia diretamente ao objetivo
 
+* **Pior Caso**: O(b^d), onde *b* é o fator de ramificação e *d* é a profundidade.
+* **Caso Médio**: O(b^d).
+* **Melhor Caso**: O(d), quando a heurística guia diretamente ao objetivo.
+
+  
 2. **Complexidade Espacial**:
    * O(b^d) para armazenar os nós na fila de prioridade
    * Requer memória para manter os conjuntos open_set e closed_set
